@@ -1,0 +1,374 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020205;
+  --foreground: #f8fafc;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(2, 2, 5, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.6);
+}
+
+* {
+  cursor: none !important; /* Hide default cursor everywhere, absolutely impossible to override */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Animations */
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+/* Cinematic Breathing Moon Pulse */
+@keyframes moon-pulse {
+  0%, 100% {
+    box-shadow: 0 0 35px 5px rgba(219, 234, 254, 0.35), 0 0 80px 15px rgba(219, 234, 254, 0.15);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 65px 25px rgba(219, 234, 254, 0.7), 0 0 140px 40px rgba(147, 197, 253, 0.4);
+    transform: scale(1.04); /* Breathing expand effect */
+  }
+}
+
+@keyframes text-shine {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; text-shadow: 0 0 8px rgba(147, 197, 253, 0.5), 0 0 20px rgba(59, 130, 246, 0.3); }
+  50% { opacity: 1; text-shadow: 0 0 16px rgba(147, 197, 253, 0.8), 0 0 30px rgba(59, 130, 246, 0.6); }
+}
+
+@keyframes bubble-bob {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* Star space drift and twinkle animation combined */
+@keyframes space-drift-twinkle {
+  0%, 100% {
+    opacity: 0.15;
+    transform: translate(0px, 0px) scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(var(--drift-x, 15px), var(--drift-y, -12px)) scale(1.25);
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
+  }
+}
+
+/* Animation Utilities */
+.animate-twinkle {
+  animation: space-drift-twinkle var(--twinkle-duration, 5s) ease-in-out infinite !important;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-moon-glow {
+  animation: moon-pulse 7s ease-in-out infinite !important;
+}
+
+.animate-bubble {
+  animation: bubble-bob 4s ease-in-out infinite;
+}
+
+/* Twinkling Star Layer */
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Glassmorphic Cards */
+.glass-panel {
+  background: rgba(10, 10, 25, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(15, 15, 35, 0.7);
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 12px 40px 0 rgba(59, 130, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Double border utility for Project cards */
+.double-border {
+  position: relative;
+  border-radius: 1rem;
+  background: rgba(10, 10, 25, 0.65);
+  backdrop-filter: blur(12px);
+  padding: 1.5rem;
+}
+
+.double-border::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, rgba(59,130,246,0.15) 100%);
+  border-radius: 1.1rem;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.double-border::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 50%, rgba(59,130,246,0.08) 100%);
+  border-radius: 1.3rem;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Shining text effect for Divyanjali's name */
+.text-shining {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #93c5fd 25%,
+    #3b82f6 50%,
+    #93c5fd 75%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shine 6s linear infinite;
+  text-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
+}
+
+/* Oval/Ellipse mask for profile image */
+.oval-mask {
+  border-radius: 50% / 50%;
+  overflow: hidden;
+  border: 3px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+  transition: all 0.5s ease-in-out;
+}
+
+.oval-mask:hover {
+  border-color: rgba(147, 197, 253, 0.7);
+  box-shadow: 0 0 35px rgba(147, 197, 253, 0.5);
+  transform: scale(1.03);
+}
+
+/* Iridescent Soap Bubble Style */
+.soap-bubble {
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 0, 128, 0.15) 40%,
+    rgba(0, 255, 255, 0.15) 60%,
+    rgba(255, 255, 255, 0.05) 80%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  box-shadow: 
+    inset 0 0 12px rgba(255, 255, 255, 0.3),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.5),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.3),
+    0 4px 10px rgba(0, 0, 0, 0.2),
+    0 0 15px rgba(59, 130, 246, 0.2);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: transform 0.2s ease-out;
+}
+
+.soap-bubble::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 25%;
+  height: 15%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transform: rotate(-30deg);
+}
+
+.soap-bubble:hover {
+  transform: scale(1.1);
+  box-shadow: 
+    inset 0 0 16px rgba(255, 255, 255, 0.5),
+    inset 3px 3px 7px rgba(255, 255, 255, 0.7),
+    0 6px 15px rgba(59, 130, 246, 0.4),
+    0 0 25px rgba(147, 197, 253, 0.3);
+}
+
+/* ---------------------------------------------------- */
+/* NEW CINEMATIC & PREMIUM EFFECTS FOR USER SPECIFICATIONS */
+/* ---------------------------------------------------- */
+
+/* Twinkling Star Animation Fix */
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(0.75);
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.3));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 8px rgba(147, 197, 253, 0.6));
+  }
+}
+
+.animate-twinkle {
+  animation: star-twinkle var(--twinkle-duration, 3s) ease-in-out infinite !important;
+}
+
+/* Stable Swaying Tree Animation wrapper (obvious and visible movement) */
+@keyframes tree-sway-stable {
+  0%, 100% {
+    transform: rotate(0deg) skewX(0deg);
+  }
+  50% {
+    transform: rotate(3.5deg) skewX(2.5deg); /* Highly visible sway */
+  }
+}
+
+.animate-sway-stable {
+  animation: tree-sway-stable 6s ease-in-out infinite !important; /* Faster, wind-like sway */
+  transform-origin: bottom center !important;
+}
+
+/* Staggered Gentle Project Box Float */
+@keyframes project-box-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float-box-1 {
+  animation: project-box-float 6.5s ease-in-out infinite !important;
+}
+
+.animate-float-box-2 {
+  animation: project-box-float 7s ease-in-out infinite !important;
+  animation-delay: 1.8s !important;
+}
+
+.animate-float-box-3 {
+  animation: project-box-float 6s ease-in-out infinite !important;
+  animation-delay: 3.2s !important;
+}
+
+/* Cinematic Letter Meteor Fall Animation */
+@keyframes letter-meteor-fall {
+  0% {
+    transform: translateY(-400px) scale(2.5) rotate(20deg);
+    filter: drop-shadow(0 0 30px rgba(147, 197, 253, 0.9)) brightness(2);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+    filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.95)) brightness(1.5);
+  }
+  85% {
+    transform: translateY(0px) scale(0.9) rotate(-2deg);
+    filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1)) brightness(1.2);
+  }
+  92% {
+    transform: translateY(-10px) scale(1.05) rotate(1deg);
+    filter: drop-shadow(0 0 35px rgba(147, 197, 253, 0.8)) brightness(1.1);
+  }
+  100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.55)) brightness(1);
+    opacity: 1;
+  }
+}
+
+.animate-letter-meteor {
+  animation: letter-meteor-fall 1s cubic-bezier(0.18, 0.89, 0.32, 1.15) forwards !important;
+  position: relative;
+}
+
+/* Comet/meteor trailing streak for falling letters */
+.letter-meteor-streak::before {
+  content: '';
+  position: absolute;
+  top: -160px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 160px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(147, 197, 253, 0.7) 25%, rgba(59, 130, 246, 0.35) 60%, rgba(59, 130, 246, 0) 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: fade-streak 1s cubic-bezier(0.18, 0.89, 0.32, 1.15) forwards;
+}
+
+@keyframes fade-streak {
+  0% {
+    opacity: 1;
+    height: 160px;
+  }
+  75% {
+    opacity: 0.8;
+    height: 80px;
+  }
+  100% {
+    opacity: 0;
+    height: 0px;
+  }
+}
+canvas {
+  z-index: 999999 !important;
+  position: fixed !important;
+  pointer-events: none !important;
+}
