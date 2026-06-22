@@ -252,7 +252,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
             lettersVisible[lettersVisible.length - 1] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
         >
-          Explore Me Now..
+          Explore Now..
         </div>
       </div>
 
